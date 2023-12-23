@@ -1,0 +1,20 @@
+<form method="post" class="mb-4">
+  {% csrf_token %}
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Username</span>
+    </div>
+    <input type="text" placeholder="Username" name="username" id="id_username" class="input w-full max-w-xs" />
+  </label>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Password</span>
+    </div>
+    <input type="password" name="password" id="id_password" placeholder="Password" class="input w-full max-w-xs" />
+  </label>
+  <button type="submit" class="btn  mt-4">
+    Log In
+  </button>
+  
+</form>
+
