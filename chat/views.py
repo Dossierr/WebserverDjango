@@ -24,25 +24,11 @@ def chat_history_view(request, case_id):
 @require_POST
 def query_endpoint(request):
     # Assuming the data is coming as JSON in the POST request
-    data = json.loads(request.body.decode('utf-8'))
-
-    # Extract relevant information from the JSON data
-    dossier_id = data.get('dossier_id')
-    query = data.get('query')
-
     url = "http://127.0.0.1:5000/q/query"
-
-    payload = json.dumps({
-    "dossier_id": dossier_id,
-    "query": query
-    })
-    
     headers = {
     'Content-Type': 'application/json'
     }
-
-    response = requests.request("POST", url, headers=headers, data=payload)
-
+    response = requests.request("POST", url, headers=headers, data=request.body)
     # Check the response from the external endpoint
     if response.status_code == 200:
         result = response.json()
