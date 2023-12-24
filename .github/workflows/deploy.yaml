@@ -47,6 +47,7 @@ jobs:
             envkey_DB_HOST: ${{ secrets.DB_HOST }}
             envkey_DB_NAME: ${{ secrets.DB_NAME }}
             envkey_DB_PORT: ${{ secrets.DB_PORT }}
+            envkey_REDIS_URL: ${{ secrets.REDIS_URL }}
             envkey_DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
             envkey_S3_AWS_ACCESS_KEY_ID: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
             envkey_S3_AWS_SECRET_KEY: ${{ secrets.S3_AWS_SECRET_KEY }}

@@ -23,7 +23,7 @@ def chat_history_view(request, case_id):
 @csrf_exempt
 @require_POST
 def query_endpoint(request):
-    # Assuming the data is coming as JSON in the POST request
+    # Creating a request for our GPTengine service
     url = "http://127.0.0.1:5000/q/query"
     headers = {
     'Content-Type': 'application/json'
