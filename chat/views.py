@@ -15,10 +15,22 @@ def chat_history_view(request, case_id):
     start_index = max(0, list_length - 20)  # Ensure start_index is not negative
     end_index = list_length - 1
     last_20_items = redis_client.lrange(redis_key, start_index, end_index)
-    last_20_items_json = [json.loads(item.decode('utf-8')) for item in last_20_items]
+    print(last_20_items)
+    
+    # Transform the structure of each item
+    transformed_items = []
+    for item in last_20_items:
+        item_data = json.loads(item.decode('utf-8'))
+        transformed_item = {
+            "content": item_data["data"]["content"],
+            "additional_kwargs": item_data["data"]["additional_kwargs"],
+            "type": item_data["data"]["type"],
+            "example": item_data["data"]["example"]
+        }
+        transformed_items.append(transformed_item)
 
-    # Return a JSON response with the last 20 items as a JSON object
-    return JsonResponse({'chat-history': last_20_items_json})
+    # Return a JSON response with the transformed items
+    return JsonResponse({'chat': transformed_items})
 
 @csrf_exempt
 @require_POST
