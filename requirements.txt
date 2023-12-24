@@ -9,3 +9,4 @@ whitenoise
 boto3
 uwsgi
 django-storages
+redis

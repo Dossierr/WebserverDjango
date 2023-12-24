@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
+import redis
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,6 +23,12 @@ import environ
 
 env = environ.Env()
 environ.Env.read_env()
+
+redis_url = env('REDIS_URL', default=None)
+if not redis_url:
+    raise ImproperlyConfigured('REDIS_URL environment variable is not set.')
+
+redis_client = redis.Redis.from_url(redis_url)
 
 
 # Quick-start development settings - unsuitable for production
