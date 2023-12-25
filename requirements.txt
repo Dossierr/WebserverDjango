@@ -14,3 +14,4 @@ djangorestframework
 markdown
 django-filter
 drf-yasg
+django_rq
