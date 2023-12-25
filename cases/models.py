@@ -4,7 +4,7 @@ from users.models import CustomUser
 import boto3
 from botocore.exceptions import ClientError
 from core.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
-
+import os
 
 class Case(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -23,6 +23,7 @@ class File(models.Model):
     file_upload = models.FileField(upload_to=file_upload_to)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    filename = models.CharField(max_length=255)
     
     def generate_presigned_url(self, expiration=3600):
         """
@@ -45,5 +46,10 @@ class File(models.Model):
         except ClientError as e:
             print(f"Error generating pre-signed URL: {e}")
             return None
+    
+    def save(self, *args, **kwargs):
+        # Capture the filename without the path
+        self.filename = os.path.basename(self.file_upload.name)
+        super().save(*args, **kwargs)
 
 

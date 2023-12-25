@@ -4,4 +4,13 @@
 
 {% block content %}
 
+{% include 'dashboard/sidebar.html' with cases=cases files=files %}
+{% include 'dashboard/dashboard_content.html' %}
+
+
+{% for case in cases %}
+    {% include 'dashboard/file_upload_modal.html' with cases=cases files=files %}
+
+{% endfor %}
+
 {% endblock %}
