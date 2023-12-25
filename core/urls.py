@@ -37,13 +37,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-   path('admin/', admin.site.urls),
-   path('', include('homepage.urls')),
-   path('', include('cases.urls')),  # Include 'cases' app URLs
-   path('', include('chat.urls')),    # Include 'chat' app URLs
-   path('user', include('users.urls')),    # Include 'chat' app URLs
-   path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-   path('api', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-   
+    path('admin/', admin.site.urls),
+    path('', include('homepage.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('cases/', include('cases.urls')),  # Include 'cases' app URLs
+    path('chat/', include('chat.urls')),    # Include 'chat' app URLs
+    path('user/', include('users.urls')),    # Include 'users' app URLs
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

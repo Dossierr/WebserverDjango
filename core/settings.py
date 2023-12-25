@@ -113,12 +113,12 @@ DATABASES = {
     }  
 }  
 
-CACHES = {
+"""CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": redis_url,
     }
-}
+}"""
 
 
 
@@ -163,9 +163,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = '/static/'
 
 
-STATICFILES_DIRS = [
-    (BASE_DIR / 'static')
-]
 
 
 
