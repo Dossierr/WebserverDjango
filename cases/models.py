@@ -1,6 +1,10 @@
 import uuid
 from django.db import models
 from users.models import CustomUser
+import boto3
+from botocore.exceptions import ClientError
+from core.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+
 
 class Case(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -19,5 +23,27 @@ class File(models.Model):
     file_upload = models.FileField(upload_to=file_upload_to)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def generate_presigned_url(self, expiration=3600):
+        """
+        Generate a pre-signed URL for the file.
+        :param expiration: Time in seconds until the URL expires (default is 1 hour).
+        :return: Pre-signed URL or None if an error occurs.
+        """
+        s3_client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
+        try:
+            response = s3_client.generate_presigned_url(
+                'get_object',
+                Params={
+                    'Bucket': 'dossierr',
+                    'Key': str(self.file_upload),
+                },
+                ExpiresIn=expiration,
+            )
+            return response
+        except ClientError as e:
+            print(f"Error generating pre-signed URL: {e}")
+            return None
 
 
