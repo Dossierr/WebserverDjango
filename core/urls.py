@@ -40,6 +40,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('homepage.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('billing/', include('billing.urls')),
     path('cases/', include('cases.urls')),  # Include 'cases' app URLs
     path('chat/', include('chat.urls')),    # Include 'chat' app URLs
     path('user/', include('users.urls')),    # Include 'users' app URLs

@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     'users',
     'cases',
     'chat',
-]
+    'billing'
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -204,3 +205,13 @@ SWAGGER_SETTINGS = {
 #This is needed for Swagger so we can only use the HTTPS Schema
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+#Stripe settings
+STRIPE_PRODUCTION_ENABLED = False
+if STRIPE_PRODUCTION_ENABLED:
+    STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY_PROD')
+    STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY_PROD')
+    print("### YOU ARE USING STRIPE IN PRODUCTION ###")
+else: 
+    STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY_TEST')
+    STRIPE_PUBLISHABLE_KEY=env('STRIPE_PUBLISHABLE_KEY_TEST')

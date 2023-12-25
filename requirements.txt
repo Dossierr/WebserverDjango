@@ -16,3 +16,4 @@ django-filter
 drf-yasg
 django_rq
 django-redis==3.1.6
+stripe
