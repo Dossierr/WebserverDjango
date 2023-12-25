@@ -1,8 +1,12 @@
-from django.urls import path
-from .views import chat_history_view, query_endpoint  # Import your views from chat.views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import ChatViewSet
 
-app_name = 'chat'  # Optional, but it helps in namespacing URLs
+# Create a router and register our viewset with it.
+router = DefaultRouter()
+router.register(r'chat', ChatViewSet, basename='chat')
 
+# The API URLs are now determined automatically by the router.
 urlpatterns = [
-    path('history/<str:case_id>/', chat_history_view, name='chat-history'),
-    path('query', query_endpoint, name='query-endpoint'),]
+    path('', include(router.urls)),
+]

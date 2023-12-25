@@ -10,3 +10,7 @@ boto3
 uwsgi
 django-storages
 redis
+djangorestframework
+markdown
+django-filter
+drf-yasg

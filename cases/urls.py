@@ -1,10 +1,13 @@
-from django.urls import path
-from .views import YourChatView  # Import your views from cases.views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import CaseViewSet, FileViewSet
 
-app_name = 'cases'  # Optional, but it helps in namespacing URLs
+# Create a router and register your viewsets with it.
+router = DefaultRouter()
+router.register(r'cases', CaseViewSet, basename='case')
+router.register(r'files', FileViewSet, basename='file')
 
+# The API URLs are now determined automatically by the router.
 urlpatterns = [
-    path('your-case-view/', YourChatView, name='your-case-view'),
-    path('your-other-view/', YourChatView, name='your-other-view'),
-    # Add other URL patterns for your 'cases' app
+    path('', include(router.urls)),
 ]

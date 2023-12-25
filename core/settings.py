@@ -50,10 +50,15 @@ CSRF_TRUSTED_ORIGINS = ['https://localhost','https://*.amazonlightsail.com','htt
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'rest_framework.authtoken',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
+    'rest_framework',
+    'homepage',
+    'dashboard',
     'users',
     'cases',
     'chat',
@@ -143,7 +148,15 @@ AUTH_USER_MODEL = "users.CustomUser"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = [
+    (BASE_DIR / 'static')
+]
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -163,3 +176,20 @@ AWS_SECRET_ACCESS_KEY = env('S3_AWS_SECRET_KEY')
 AWS_STORAGE_BUCKET_NAME = 'dossierr'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE= False
+
+#API Docs Swagger
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'schemes': ['https'],
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        },
+    },
+}
+
+#This is needed for Swagger so we can only use the HTTPS Schema
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
