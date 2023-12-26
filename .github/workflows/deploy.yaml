@@ -52,6 +52,7 @@ jobs:
             envkey_S3_AWS_ACCESS_KEY_ID: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
             envkey_S3_AWS_SECRET_KEY: ${{ secrets.S3_AWS_SECRET_KEY }}
             envkey_STRIPE_SECRET_KEY_PROD: ${{ secrets.STRIPE_SECRET_KEY_PROD }}
+            envkey_STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
             envkey_DEBUG: false
             directory: core
             file_name: .env
