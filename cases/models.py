@@ -12,6 +12,9 @@ class Case(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title +' by '+self.user.email
 
 def file_upload_to(instance, filename):
     case_id = str(instance.case.id) if instance.case else 'no_case'
@@ -24,6 +27,9 @@ class File(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     filename = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.filename +' from '+self.case.title
     
     def generate_presigned_url(self, expiration=3600):
         """

@@ -7,6 +7,8 @@ class UserPayment(models.Model):
     app_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     payment_bool = models.BooleanField(default=False)
     stripe_checkout_id = models.CharField(max_length=500)
+    stripe_subscription_id = models.CharField(max_length=500)
+    stripe_customer_id = models.CharField(max_length=500)
             
 @receiver(post_save, sender=CustomUser)
 def create_user_payment(sender, instance, created, **kwargs):
