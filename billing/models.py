@@ -9,6 +9,7 @@ class UserPayment(models.Model):
     stripe_checkout_id = models.CharField(max_length=500)
     stripe_subscription_id = models.CharField(max_length=500)
     stripe_customer_id = models.CharField(max_length=500)
+    stripe_usage_billing_id = models.CharField(max_length=500)
             
 @receiver(post_save, sender=CustomUser)
 def create_user_payment(sender, instance, created, **kwargs):

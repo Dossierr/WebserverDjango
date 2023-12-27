@@ -48,10 +48,17 @@ def payment_successful(request):
     customer = stripe.Customer.retrieve(session.customer)
     user_id = request.user
     subscription_id = session.subscription
+    # Replace 'metered_product_id' with the actual ID of your metered product
+    metered_product_id = 'price_1ORkQkKwogVwbigB7qeYsrWZ'
+    # List subscription items
+    subscription_items = stripe.SubscriptionItem.list(subscription=subscription_id)
+    # Filter line items for the specific metered product
+    filtered_items = [item for item in subscription_items.data if item.price.id == metered_product_id]
     user_payment = UserPayment.objects.get(app_user=user_id)
     user_payment.stripe_checkout_id = checkout_session_id
     user_payment.stripe_customer_id = customer.id
     user_payment.stripe_subscription_id = subscription_id
+    user_payment.stripe_usage_billing_id = filtered_items[0]['id']
     user_payment.save()
     return render(request, 'payment_succes.html', {'customer': customer})
 
