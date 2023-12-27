@@ -14,15 +14,12 @@ class CustomAuthToken(ObtainAuthToken):
         required=['username', 'password'],
         )
     def post(self, request, *args, **kwargs):
-        """Post the users email and password and returns a token that can be used to authenticate on other endpoints
-        The token key should be included in the Authorization HTTP header prefixed by the string literal "Token" For example: Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
-        """
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         return Response({
-            'token': 'token '+token.key,
+            'token': token.key,
             'user_id': user.pk,
             'email': user.email
         })

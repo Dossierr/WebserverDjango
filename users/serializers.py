@@ -8,6 +8,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'is_staff', 'is_active', 'date_joined']
 
     def create(self, validated_data):
+        request = self.context.get('request')  # Retrieve the request from the context
         user = CustomUser.objects.create_user(email=validated_data['email'], preferred_name=validated_data['preferred_name'])
         return user
 
