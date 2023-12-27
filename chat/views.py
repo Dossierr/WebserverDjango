@@ -1,13 +1,20 @@
 import json
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET, require_POST
+from django.shortcuts import get_object_or_404
 from core.settings import redis_client
 import requests
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from billing.models import UserPayment
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class ChatViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'], url_path='history/(?P<case_id>[^/.]+)')
     def chat_history(self, request, case_id):
@@ -46,12 +53,21 @@ class ChatViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'])
     def question(self, request):
+        user_billing_profile = get_object_or_404(UserPayment, app_user=request.user )
+        usage_billing_token = user_billing_profile.stripe_usage_billing_id
         # Creating a request for our GPTengine service
         url = "http://127.0.0.1:5000/q/query"
         headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+
         }
-        response = requests.post(url, headers=headers, data=request.body)
+        request_body_json = json.loads(request.body)
+        request_body_json['billing-token'] = usage_billing_token
+        modified_request_body = json.dumps(request_body_json)
+
+
+
+        response = requests.post(url, headers=headers, data=modified_request_body)
 
         # Check the response from the external endpoint
         if response.status_code == 200:
