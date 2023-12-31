@@ -1,14 +1,18 @@
 <div id="chat-history" class="h-screen bg-white dark:bg-gray-900">
     <section class="overflow-y-auto flex flex-col justify-end g-white dark:bg-gray-900">
         {% for chat in chat_history %}
-            <div class="p-4 sm:ml-64 max-w-[80%]">
-                {% if chat.type == 'ai' %}
-                    {% include 'dashboard/chat/chat_bubbel_left.html' with chat=chat source_files=source_files %}
+        <div class="p-4 sm:ml-64 max-w-[80%]">
+            {% if chat.type == 'ai' %}
+                {% if forloop.last %}
+                    {% include 'dashboard/chat/chat_bubbel_with_source.html' with chat=chat source_files=source_files %}
                 {% else %}
-                    {% include 'dashboard/chat/chat_bubbel_right.html' with chat=chat %}
+                    {% include 'dashboard/chat/chat_bubbel_left.html' with chat=chat %}
                 {% endif %}
-            </div>
-        {% endfor %}
+            {% else %}
+                {% include 'dashboard/chat/chat_bubbel_right.html' with chat=chat %}
+            {% endif %}
+        </div>
+    {% endfor %}
 
         <div class="p-4 sm:ml-64 max-w-[80%]">
         
