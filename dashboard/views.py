@@ -44,19 +44,15 @@ def dashboard_view(request):
         chat_list = result.get("chat", [])
         print(chat_list)
         sources_list = result.get("sources", [])
-        source_list_url = 
         
-
-        
-        print(chat_list)
-        print(sources_list)  
+        source_files = File.objects.filter(filename__in=sources_list).filter(case=active_case) 
         context = {
             'title': 'Dashboard',
             'cases': cases,
             'files': files,
             'active_case_id': active_case_id,
             'chat_history': chat_list,
-            'source_List': sources_list
+            'source_files': source_files
         }
         return render(request, 'dashboard.html', context)      
     

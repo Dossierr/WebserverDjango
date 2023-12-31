@@ -3,7 +3,7 @@
         {% for chat in chat_history %}
             <div class="p-4 sm:ml-64 max-w-[80%]">
                 {% if chat.type == 'ai' %}
-                    {% include 'dashboard/chat/chat_bubbel_left.html' with chat=chat %}
+                    {% include 'dashboard/chat/chat_bubbel_left.html' with chat=chat source_files=source_files %}
                 {% else %}
                     {% include 'dashboard/chat/chat_bubbel_right.html' with chat=chat %}
                 {% endif %}
