@@ -5,7 +5,7 @@
 {% block content %}
 
 {% include 'dashboard/sidebar.html' with cases=cases files=files %}
-{% include 'dashboard/dashboard_content.html' %}
+{% include 'dashboard/dashboard_content.html' with chat_history=chat_history files=files source_list=source_list %}
 
 
 {% for case in cases %}

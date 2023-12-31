@@ -4,8 +4,10 @@ from django.views.decorators.http import require_GET, require_POST
 from django.shortcuts import get_object_or_404
 from core.settings import redis_client
 import requests
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import action
+from django.utils.decorators import method_decorator
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -13,8 +15,11 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from billing.models import UserPayment
 
+decorators = [never_cache]
+
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
+@method_decorator(decorators, name='dispatch')
 class ChatViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'], url_path='history/(?P<case_id>[^/.]+)')
     def chat_history(self, request, case_id):
@@ -49,7 +54,6 @@ class ChatViewSet(viewsets.ViewSet):
 
         # Return a JSON response with the transformed items
         return JsonResponse({'chat': transformed_items})
-
 
     @action(detail=False, methods=['post'])
     def question(self, request):

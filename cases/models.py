@@ -12,9 +12,17 @@ class Case(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=False, )
     
     def __str__(self):
         return self.title +' by '+self.user.email
+    
+    def save(self, *args, **kwargs):
+        # Check if there's already an active Case
+        if self.is_active:
+            Case.objects.filter(is_active=True).update(is_active=False)
+        super().save(*args, **kwargs)
+    
 
 def file_upload_to(instance, filename):
     case_id = str(instance.case.id) if instance.case else 'no_case'
